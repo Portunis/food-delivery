@@ -1,6 +1,6 @@
 <template>
   <div class="nav-bar">
-    <div class="nav-bar__logo">
+    <div class="nav-bar__logo" @click="$router.push('/pizza')">
       <img
         class="nav-bar__icon"
         :src="require('@/assets/img/logo_pizza.svg')"
@@ -35,6 +35,7 @@ export default defineComponent({
   &__logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
   }
   &__icon {
     margin-right: 17px;
