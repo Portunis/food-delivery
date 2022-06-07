@@ -1,8 +1,11 @@
 <template>
   <div class="card">
-    <img class="card__image" :src="require('@/assets/img/burger_pizza.png')" />
+    <img
+      class="card__image"
+      :src="require(`@/assets/img/${product.image}.png`)"
+    />
     <div class="card__info">
-      <p class="card__name">Чизбургер-пицца</p>
+      <p class="card__name">{{ product.name }}</p>
       <div class="card__params">
         <div class="card__type">
           <p class="card__check active">тонкое</p>
@@ -15,15 +18,15 @@
         </div>
       </div>
       <div class="card__total">
-        <div class="card__price">от 395 ₽</div>
-        <ButtonComponent @click="addProd(this.product)" />
+        <div class="card__price">от {{ product.price }} ₽</div>
+        <ButtonComponent @click="addProd(product)" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import ButtonComponent from "@/components/Widjet/ButtonComponent.vue";
 import { mapActions } from "pinia";
 import { useStore } from "@/store";
@@ -32,15 +35,10 @@ import { ProductModel } from "@/models/ProductModel";
 export default defineComponent({
   name: "CardPizza",
   components: { ButtonComponent },
-  data() {
-    return {
-      product: {
-        id: 2,
-        name: "Pizza",
-        type: 1,
-        size: 1,
-      } as ProductModel,
-    };
+  props: {
+    product: {
+      type: Object as PropType<ProductModel>,
+    },
   },
   methods: {
     ...mapActions(useStore, {

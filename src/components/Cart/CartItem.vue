@@ -3,19 +3,19 @@
     <div class="cart-item__left">
       <img
         class="cart-item__image"
-        :src="require('@/assets/img/aziat_pizza.png')"
+        :src="require(`@/assets/img/${product.image}.png`)"
       />
       <div class="cart-item__description">
-        <p class="cart-item__title">Сырный цыпленок</p>
+        <p class="cart-item__title">{{ product.name }}</p>
         <p class="cart-item__params">тонкое тесто, 26 см</p>
       </div>
     </div>
     <div class="cart-item__count">
-      <BootstrapIcon icon="dash-circle" class="icon-count" @click="minus" />
-      2
-      <BootstrapIcon icon="plus-circle" class="icon-count" @click="plus" />
+      <BootstrapIcon icon="dash-circle" class="icon-count" />
+      {{ product.quantity }}
+      <BootstrapIcon icon="plus-circle" class="icon-count" />
     </div>
-    <div class="cart-item__price">700 Р</div>
+    <div class="cart-item__price">{{ product.price }} Р</div>
     <div class="cart-item__delete">
       <BootstrapIcon icon="x-circle" class="icon-delete" />
     </div>
@@ -23,35 +23,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType, toRefs } from "vue";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
-import { mapActions } from "pinia";
-import { useStore } from "@/store";
 import { ProductModel } from "@/models/ProductModel";
+
 export default defineComponent({
   name: "CartItem",
   components: { BootstrapIcon },
-  data() {
-    return {
-      product: {
-        id: 2,
-        name: "Pizza",
-        type: 1,
-        size: 1,
-        quantity: 1,
-      } as ProductModel,
-    };
-  },
-  methods: {
-    ...mapActions(useStore, {
-      incrementItem: "incrementProductCart",
-      decrementItem: "decrementProductCart",
-    }),
-    plus() {
-      this.incrementItem(this.product);
-    },
-    minus() {
-      this.decrementItem(this.product);
+  props: {
+    product: {
+      type: Object as PropType<ProductModel>,
     },
   },
 });

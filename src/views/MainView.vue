@@ -2,18 +2,30 @@
   <div class="content">
     <h2 class="content__title">Все пиццы</h2>
     <div class="content-body">
-      <CardPizza v-for="n in 10" :key="n" />
+      {{ products }}
+      <CardPizza
+        v-for="product in store.products"
+        :key="product.id"
+        :product="product"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import CardPizza from "@/components/Card/CardPizza.vue";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "MainView",
   components: { CardPizza },
+  setup() {
+    const store = useStore();
+    return {
+      store,
+    };
+  },
 });
 </script>
 

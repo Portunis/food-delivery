@@ -9,7 +9,11 @@
       </div>
     </div>
     <div class="line"></div>
-    <CartItem v-for="n in 10" :key="n" />
+    <CartItem
+      v-for="product in store.cart"
+      :key="product.id"
+      :product="product"
+    />
     <div class="cart-list__total">
       <p>Всего пицц: <strong>3 шт</strong></p>
       <div class="cart-list__total-cost">
@@ -30,13 +34,11 @@ import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 import CartItem from "@/components/Cart/CartItem.vue";
 import ButtonComponent from "@/components/Widjet/ButtonComponent.vue";
 import { useStore } from "@/store";
-
 export default defineComponent({
   name: "CartList",
   components: { ButtonComponent, CartItem, BootstrapIcon },
   setup() {
     const store = useStore();
-
     return {
       store,
     };
