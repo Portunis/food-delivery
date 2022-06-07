@@ -1,6 +1,15 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import DefaultLayout from "./layouts/DefaultLayout.vue";
+import DeliveryLayout from "./layouts/DeliveryLayout.vue";
 
-createApp(App).use(store).use(router).mount("#app");
+import { createPinia } from "pinia";
+
+const app = createApp(App);
+app
+  .use(router)
+  .component("default-layout", DefaultLayout)
+  .component("delivery-layout", DeliveryLayout)
+  .use(createPinia())
+  .mount("#app");

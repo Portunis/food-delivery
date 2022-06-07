@@ -1,0 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap");
+$main-color: #ff7143;
+$main-white: #ffffff;
+$main-black: #19191b;
+$main-error: #ff4040;
+$font-raleway: Raleway;
+$h4-font-size: 18px;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+$font-weight-medium: 500;
+
+:export {
+  main-color: $main-color;
+  main-white: $main-white;
+  main-black: $main-black;
+  main-error: $main-error;
+  font-weight-regular: $font-weight-regular;
+  font-weight-medium: $font-weight-medium;
+  font-weight-bold: $font-weight-bold;
+  font-raleway: $font-raleway;
+  h4-font-size: $h4-font-size;
+}
