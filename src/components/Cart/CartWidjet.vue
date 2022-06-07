@@ -1,20 +1,42 @@
 <template>
   <div class="cart" @click="$router.push('/cart')">
-    <div class="cart__summ">510 p</div>
+    <div class="cart__summ">{{ result || 0 }} p</div>
     <p style="color: #ffff">|</p>
     <div class="cart__count">
       <BootstrapIcon icon="cart" class="icon" />
-      3
+      {{ store.cart?.length || 0 }}
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
+import { useStore } from "@/store";
 export default defineComponent({
   name: "CartWidjet",
   components: { BootstrapIcon },
+  setup() {
+    const store = useStore();
+    // eslint-disable-next-line vue/return-in-computed-property
+    const totalCont = computed(() => {
+      const result: any = [];
+      if (store.cart) {
+        for (let item of store.cart) {
+          result.push(item.price * item.quantity);
+        }
+        return result.reduce((sum: number, el: number) => {
+          return sum + el;
+        });
+      }
+    });
+    const result = totalCont.value;
+    console.log(totalCont.value);
+    return {
+      result,
+      store,
+    };
+  },
 });
 </script>
 
