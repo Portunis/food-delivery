@@ -3,4 +3,5 @@ export interface ProductModel {
   name: string;
   type: number;
   size: number;
+  quantity: number;
 }

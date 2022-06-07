@@ -11,9 +11,9 @@
       </div>
     </div>
     <div class="cart-item__count">
-      <BootstrapIcon icon="dash-circle" class="icon-count" />
+      <BootstrapIcon icon="dash-circle" class="icon-count" @click="minus" />
       2
-      <BootstrapIcon icon="plus-circle" class="icon-count" />
+      <BootstrapIcon icon="plus-circle" class="icon-count" @click="plus" />
     </div>
     <div class="cart-item__price">700 Р</div>
     <div class="cart-item__delete">
@@ -25,9 +25,35 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
+import { mapActions } from "pinia";
+import { useStore } from "@/store";
+import { ProductModel } from "@/models/ProductModel";
 export default defineComponent({
   name: "CartItem",
   components: { BootstrapIcon },
+  data() {
+    return {
+      product: {
+        id: 2,
+        name: "Pizza",
+        type: 1,
+        size: 1,
+        quantity: 1,
+      } as ProductModel,
+    };
+  },
+  methods: {
+    ...mapActions(useStore, {
+      incrementItem: "incrementProductCart",
+      decrementItem: "decrementProductCart",
+    }),
+    plus() {
+      this.incrementItem(this.product);
+    },
+    minus() {
+      this.decrementItem(this.product);
+    },
+  },
 });
 </script>
 

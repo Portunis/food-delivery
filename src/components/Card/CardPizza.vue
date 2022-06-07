@@ -16,7 +16,7 @@
       </div>
       <div class="card__total">
         <div class="card__price">от 395 ₽</div>
-        <ButtonComponent />
+        <ButtonComponent @click="addProd(this.product)" />
       </div>
     </div>
   </div>
@@ -25,10 +25,31 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ButtonComponent from "@/components/Widjet/ButtonComponent.vue";
+import { mapActions } from "pinia";
+import { useStore } from "@/store";
+import { ProductModel } from "@/models/ProductModel";
 
 export default defineComponent({
   name: "CardPizza",
   components: { ButtonComponent },
+  data() {
+    return {
+      product: {
+        id: 2,
+        name: "Pizza",
+        type: 1,
+        size: 1,
+      } as ProductModel,
+    };
+  },
+  methods: {
+    ...mapActions(useStore, {
+      addProductCart: "addProductCart",
+    }),
+    addProd(product: ProductModel) {
+      this.addProductCart(product);
+    },
+  },
 });
 </script>
 
