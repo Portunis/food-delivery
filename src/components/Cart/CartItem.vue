@@ -7,13 +7,23 @@
       />
       <div class="cart-item__description">
         <p class="cart-item__title">{{ product.name }}</p>
-        <p class="cart-item__params">тонкое тесто, 26 см</p>
+        <p class="cart-item__params">
+          {{ product.thickness }},{{ product.diameter }} см
+        </p>
       </div>
     </div>
     <div class="cart-item__count">
-      <BootstrapIcon icon="dash-circle" class="icon-count" />
+      <BootstrapIcon
+        icon="dash-circle"
+        class="icon-count"
+        @click="decrementItemProduct"
+      />
       {{ product.quantity }}
-      <BootstrapIcon icon="plus-circle" class="icon-count" />
+      <BootstrapIcon
+        icon="plus-circle"
+        class="icon-count"
+        @click="addItemProduct"
+      />
     </div>
     <div class="cart-item__price">{{ product.price }} Р</div>
     <div class="cart-item__delete">
@@ -23,9 +33,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs } from "vue";
+import { defineComponent, PropType } from "vue";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 import { ProductModel } from "@/models/ProductModel";
+import { useCart } from "@/hooks/useCart";
 
 export default defineComponent({
   name: "CartItem",
@@ -34,6 +45,21 @@ export default defineComponent({
     product: {
       type: Object as PropType<ProductModel>,
     },
+  },
+  setup(props) {
+    const { incrementItemCart, decrementItemCart } = useCart();
+
+    const addItemProduct = () => {
+      incrementItemCart(props.product);
+    };
+    const decrementItemProduct = () => {
+      decrementItemCart(props.product);
+    };
+
+    return {
+      addItemProduct,
+      decrementItemProduct,
+    };
   },
 });
 </script>
@@ -54,6 +80,7 @@ export default defineComponent({
   }
   &__description {
     margin-left: 20px;
+    width: 300px;
   }
   &__price,
   &__count,

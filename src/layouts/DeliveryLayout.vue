@@ -7,9 +7,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NavBar from "@/components/NavBar/NavBar";
 import { useStore } from "@/store";
 import { onMounted } from "vue";
+import NavBar from "@/components/NavBar/NavBar.vue";
 
 export default defineComponent({
   name: "DeliveryLayout",

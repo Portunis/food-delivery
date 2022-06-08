@@ -80,14 +80,6 @@ export const useStore = defineStore("main", {
       }
       this.addItemLocalStorage(cart);
     },
-    // deleteProductCart() {
-    //   const cart = this.cart;
-    //   for (const index in cart) {
-    //     if (cart[index] === product) {
-    //       cart.splice(index, 1);
-    //     }
-    //   }
-    // },
     incrementProductCart(product: ProductModel) {
       const cart = this.cart;
       cart.map((item) => {

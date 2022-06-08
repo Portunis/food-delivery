@@ -2,7 +2,6 @@
   <div class="content">
     <h2 class="content__title">Все пиццы</h2>
     <div class="content-body">
-      {{ products }}
       <CardPizza
         v-for="product in store.products"
         :key="product.id"

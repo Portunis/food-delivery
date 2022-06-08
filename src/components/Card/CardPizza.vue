@@ -8,29 +8,42 @@
       <p class="card__name">{{ product.name }}</p>
       <div class="card__params">
         <div class="card__type">
-          <p class="card__check active">тонкое</p>
-          <p class="card__check">традиционное</p>
+          <p
+            class="card__check"
+            v-for="(thickness, index) in ['тонкое', 'традиционное']"
+            :key="index"
+            :class="{ active: thickness === selectedThickness }"
+            @click="selectedThickness = thickness"
+          >
+            {{ thickness }}
+          </p>
         </div>
         <div class="card__size">
-          <p class="card__check">26 см</p>
-          <p class="card__check">30 см</p>
-          <p class="card__check">40 см</p>
+          <p
+            class="card__check"
+            v-for="diameter in [26, 30, 40]"
+            :key="diameter"
+            :class="{ active: diameter === selectedDiameter }"
+            @click="selectedDiameter = diameter"
+          >
+            {{ diameter }} см
+          </p>
         </div>
       </div>
       <div class="card__total">
         <div class="card__price">от {{ product.price }} ₽</div>
-        <ButtonComponent @click="addProd(product)" />
+        <ButtonComponent @click="addToCart(product)" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import ButtonComponent from "@/components/Widjet/ButtonComponent.vue";
-import { mapActions } from "pinia";
-import { useStore } from "@/store";
 import { ProductModel } from "@/models/ProductModel";
+
+import { useCart } from "@/hooks/useCart";
 
 export default defineComponent({
   name: "CardPizza",
@@ -40,13 +53,19 @@ export default defineComponent({
       type: Object as PropType<ProductModel>,
     },
   },
-  methods: {
-    ...mapActions(useStore, {
-      addProductCart: "addProductCart",
-    }),
-    addProd(product: ProductModel) {
-      this.addProductCart(product);
-    },
+  setup(props) {
+    const { addPizza } = useCart();
+    const selectedDiameter = ref(26);
+    const selectedThickness = ref("тонкое");
+    const addToCart = () => {
+      addPizza(props.product, selectedDiameter.value, selectedThickness.value);
+    };
+
+    return {
+      selectedDiameter,
+      selectedThickness,
+      addToCart,
+    };
   },
 });
 </script>

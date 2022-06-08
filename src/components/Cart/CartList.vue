@@ -18,7 +18,7 @@
       <p>Всего пицц: <strong>3 шт</strong></p>
       <div class="cart-list__total-cost">
         Сумма заказа:
-        <p class="cart-list__total-price">900 ₽</p>
+        <p class="cart-list__total-price">{{ cartTotalCount }} ₽</p>
       </div>
     </div>
     <div class="cart-list__footer">
@@ -34,13 +34,17 @@ import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 import CartItem from "@/components/Cart/CartItem.vue";
 import ButtonComponent from "@/components/Widjet/ButtonComponent.vue";
 import { useStore } from "@/store";
+import { useCart } from "@/hooks/useCart";
+
 export default defineComponent({
   name: "CartList",
   components: { ButtonComponent, CartItem, BootstrapIcon },
   setup() {
     const store = useStore();
+    const { cartTotalCount } = useCart();
     return {
       store,
+      cartTotalCount,
     };
   },
 });

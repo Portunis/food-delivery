@@ -6,4 +6,6 @@ export interface ProductModel {
   type: number;
   size: number;
   quantity: number;
+  diameter: number;
+  thickness: number;
 }
