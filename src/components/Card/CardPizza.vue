@@ -3,6 +3,7 @@
     <img
       class="card__image"
       :src="require(`@/assets/img/${product.image}.png`)"
+      :alt="product.name"
     />
     <div class="card__info">
       <p class="card__name">{{ product.name }}</p>
@@ -32,16 +33,19 @@
       </div>
       <div class="card__total">
         <div class="card__price">от {{ product.price }} ₽</div>
-        <ButtonComponent @click="addToCart(product)" />
+        <ButtonComponent
+          :data="{ leftIcon: 'plus-lg', count: countProduct }"
+          @click="addToCart(product)"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, PropType, ref, computed } from "vue";
 import ButtonComponent from "@/components/Widjet/ButtonComponent.vue";
-import { ProductModel } from "@/models/ProductModel";
+import { IProduct } from "@/typescript/interfaces/IProduct";
 
 import { useCart } from "@/hooks/useCart";
 
@@ -50,21 +54,31 @@ export default defineComponent({
   components: { ButtonComponent },
   props: {
     product: {
-      type: Object as PropType<ProductModel>,
+      type: Object as PropType<IProduct>,
+      default: () => ({}),
     },
   },
   setup(props) {
-    const { addPizza } = useCart();
+    const { addPizza, getCountForId } = useCart();
     const selectedDiameter = ref(26);
     const selectedThickness = ref("тонкое");
+
+    /**
+     * Добавляем товар в корзину
+     */
     const addToCart = () => {
       addPizza(props.product, selectedDiameter.value, selectedThickness.value);
     };
+
+    const countProduct = computed(() => {
+      return getCountForId(props.product);
+    });
 
     return {
       selectedDiameter,
       selectedThickness,
       addToCart,
+      countProduct,
     };
   },
 });
@@ -110,7 +124,7 @@ export default defineComponent({
     &:hover {
       background: $main-white;
       border-radius: 5px;
-      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
       cursor: pointer;
     }
   }
@@ -130,6 +144,6 @@ export default defineComponent({
 .active {
   background: $main-white;
   border-radius: 5px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 </style>

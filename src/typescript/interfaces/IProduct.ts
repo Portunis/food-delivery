@@ -1,4 +1,4 @@
-export interface ProductModel {
+export interface IProduct {
   id: number;
   name: string;
   image: string;
@@ -6,6 +6,6 @@ export interface ProductModel {
   type: number;
   size: number;
   quantity: number;
-  diameter: number;
-  thickness: number;
+  diameter?: number | null;
+  thickness?: string;
 }

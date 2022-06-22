@@ -1,37 +1,47 @@
 <template>
   <div class="nav-bar">
-    <div class="nav-bar__logo" @click="$router.push('/pizza')">
-      <img
-        class="nav-bar__icon"
-        :src="require('@/assets/img/logo_pizza.svg')"
-      />
-      <div>
-        <p class="nav-bar__title">PizzaHunt</p>
-        <p class="nav-bar__description">Самая вкусная пицца в Томске</p>
+    <div class="nav-bar__items">
+      <div class="nav-bar__logo" @click="$router.push('/pizza')">
+        <img
+          class="nav-bar__icon"
+          :src="require('@/assets/img/logo_pizza.svg')"
+          alt="logo_pizza"
+        />
+        <div>
+          <p class="nav-bar__title">PizzaHunt</p>
+          <p class="nav-bar__description">Самая вкусная пицца в Томске</p>
+        </div>
       </div>
+      <CartWidget />
     </div>
-    <CartWidjet />
   </div>
   <div class="line"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import CartWidjet from "@/components/Cart/CartWidjet.vue";
+import CartWidget from "@/components/Cart/CartWidget.vue";
 
 export default defineComponent({
   name: "NavBar",
-  components: { CartWidjet },
+  components: { CartWidget },
 });
 </script>
 
 <style scoped lang="scss">
 @import "./src/assets/variables";
 .nav-bar {
+  position: fixed;
+  background: $main-white;
+  height: 50px;
+  width: 100%;
   padding: 30px 47px;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  box-shadow: rgb(6 5 50 / 10%) 0 4px 30px;
+  &__items {
+    display: flex;
+    justify-content: space-between;
+  }
   &__logo {
     display: flex;
     align-items: center;

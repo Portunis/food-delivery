@@ -1,10 +1,9 @@
 <template>
   <component :is="layout">
-    <template v-slot:content>
+    <template #content>
       <router-view />
     </template>
   </component>
-  <ToasterContainer></ToasterContainer>
 </template>
 
 <script>
@@ -25,5 +24,8 @@ export default defineComponent({
 * {
   padding: 0;
   margin: 0;
+}
+::-webkit-scrollbar {
+  width: 0;
 }
 </style>

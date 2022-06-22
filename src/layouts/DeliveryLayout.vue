@@ -30,6 +30,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .container {
+  margin: 100px 0;
   padding: 32px 50px;
 }
 </style>

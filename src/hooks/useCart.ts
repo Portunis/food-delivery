@@ -1,54 +1,69 @@
 import { computed } from "vue";
-import { ProductModel } from "@/models/ProductModel";
+import { IProduct } from "@/typescript/interfaces/IProduct";
 import { useStore } from "@/store";
 
 export function useCart() {
   const store = useStore();
 
-  const count = computed(() => store.cart?.length);
-
-  const cartTotalCount = computed(() => {
-    const result = [];
-    if (store.cart?.length) {
-      const cart = store.cart;
-      for (const item of cart) {
-        result.push(item.price * item.quantity);
-      }
-      return result.reduce(function (sum, el) {
-        return sum + el;
-      });
-    } else {
-      return 0;
-    }
-  });
-
-  const priceItem = computed(() => {
-
-  })
-
+  /**
+   * Добавляем товар в корзину
+   * @param product - Object - Product
+   * @param selectedDiameter - number - Диамерт пиццы
+   * @param selectedThickness - string - Тип теста
+   */
   const addPizza = (
-    product: any,
+    product: IProduct,
     selectedDiameter: number,
     selectedThickness: string
   ) => {
-    const cart = store.cart || [];
     product["diameter"] = selectedDiameter;
     product["thickness"] = selectedThickness;
-    product["quantity"] = 1;
-    if (cart.find((item) => item.id === product.id) === undefined) {
+    const cart = store.cart || [];
+    if (cart.length) {
+      let isProductExist = false;
+      cart.map((item) => {
+        if (item.id === product.id) {
+          isProductExist = true;
+          item.quantity++;
+        }
+      });
+      if (!isProductExist) {
+        cart.push(product);
+      }
+    } else {
       cart.push(product);
     }
+
     addProductLocalStorage(cart);
   };
 
-  const addProductLocalStorage = (product: ProductModel[]) => {
+  /**
+   * Добавляет в локалстор корзину
+   * @param product - Array - Корзина
+   */
+  const addProductLocalStorage = (product: IProduct[]) => {
     localStorage.setItem("cart", JSON.stringify(product));
   };
-  const getCountForId = (id: number) => {
-    return store.cart.filter((item) => item.id === id).length;
+
+  /**
+   * Получаем количество продукта добавленого в корзину
+   * @param product
+   */
+  const getCountForId = (product: IProduct) => {
+    if (store.cart?.length) {
+      store.cart.find((item) => {
+        if (item.id === product.id) {
+          return item.quantity;
+        }
+      });
+    }
   };
 
-  const incrementItemCart = (product: any) => {
+  /**
+   * Прибавляем количество единиц продукта в корзине
+   * @param product - Object - Product
+   */
+  const incrementItemCart = (product: IProduct) => {
     let cart = store.cart;
     cart = cart.map((item) => {
       if (item.id === product.id) {
@@ -59,7 +74,11 @@ export function useCart() {
     addProductLocalStorage(cart);
   };
 
-  const decrementItemCart = (product: any) => {
+  /**
+   * Уменьшаем количество единиц продукта в корзине
+   * @param product
+   */
+  const decrementItemCart = (product: IProduct) => {
     let cart = store.cart;
     cart = cart.map((item) => {
       if (item.id === product.id) {
@@ -74,6 +93,31 @@ export function useCart() {
     addProductLocalStorage(cart);
   };
 
+  /**
+   * Очищаем корзину
+   */
+  const clearCart = () => {
+    store.cart = [];
+    localStorage.removeItem("cart");
+  };
+
+  const count = computed(() => store.cart?.length);
+
+  const cartTotalCount = computed(() => {
+    const result = [];
+    if (store.cart?.length) {
+      const cart = store.cart;
+      for (const item of cart) {
+        result.push(item.price * item.quantity);
+      }
+      return result.reduce((sum, el) => {
+        return sum + el;
+      });
+    } else {
+      return 0;
+    }
+  });
+
   return {
     addPizza,
     getCountForId,
@@ -81,5 +125,6 @@ export function useCart() {
     cartTotalCount,
     incrementItemCart,
     decrementItemCart,
+    clearCart,
   };
 }

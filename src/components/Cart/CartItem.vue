@@ -4,6 +4,7 @@
       <img
         class="cart-item__image"
         :src="require(`@/assets/img/${product.image}.png`)"
+        :alt="product.name"
       />
       <div class="cart-item__description">
         <p class="cart-item__title">{{ product.name }}</p>
@@ -22,7 +23,7 @@
       <BootstrapIcon
         icon="plus-circle"
         class="icon-count"
-        @click="addItemProduct"
+        @click="incrementItemProduct"
       />
     </div>
     <div class="cart-item__price">{{ product.price }} Р</div>
@@ -35,7 +36,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
-import { ProductModel } from "@/models/ProductModel";
+import { IProduct } from "@/typescript/interfaces/IProduct";
 import { useCart } from "@/hooks/useCart";
 
 export default defineComponent({
@@ -43,13 +44,14 @@ export default defineComponent({
   components: { BootstrapIcon },
   props: {
     product: {
-      type: Object as PropType<ProductModel>,
+      type: Object as PropType<IProduct>,
+      default: () => ({}),
     },
   },
   setup(props) {
     const { incrementItemCart, decrementItemCart } = useCart();
 
-    const addItemProduct = () => {
+    const incrementItemProduct = () => {
       incrementItemCart(props.product);
     };
     const decrementItemProduct = () => {
@@ -57,7 +59,7 @@ export default defineComponent({
     };
 
     return {
-      addItemProduct,
+      incrementItemProduct,
       decrementItemProduct,
     };
   },

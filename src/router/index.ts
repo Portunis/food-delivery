@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("../views/Home.vue"),
   },
   {
-    path: "/pizza",
+    path: "/tomsk",
     name: "MainView",
     meta: {
       layout: "delivery-layout",

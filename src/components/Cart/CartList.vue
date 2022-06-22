@@ -4,7 +4,7 @@
       <div class="cart-list__title">
         <BootstrapIcon icon="cart" class="icon" />Корзина
       </div>
-      <div class="cart-list__clear">
+      <div class="cart-list__clear" @click="clearCart">
         <BootstrapIcon icon="trash" class="icon" />Очистить корзину
       </div>
     </div>
@@ -22,8 +22,11 @@
       </div>
     </div>
     <div class="cart-list__footer">
-      <ButtonComponent />
-      <ButtonComponent />
+      <ButtonComponent
+        :data="{ leftIcon: 'chevron-left', text: 'Вернуться назад' }"
+        @click="$router.go(-1)"
+      />
+      <ButtonComponent :data="{ text: 'Оформить заказ' }" />
     </div>
   </div>
 </template>
@@ -41,10 +44,11 @@ export default defineComponent({
   components: { ButtonComponent, CartItem, BootstrapIcon },
   setup() {
     const store = useStore();
-    const { cartTotalCount } = useCart();
+    const { cartTotalCount, clearCart } = useCart();
     return {
       store,
       cartTotalCount,
+      clearCart,
     };
   },
 });
@@ -53,7 +57,7 @@ export default defineComponent({
 <style scoped lang="scss">
 @import "@/assets/variables.scss";
 .cart-list {
-  margin: 80px auto;
+  margin: 10px auto;
   width: 820px;
   &__header {
     display: flex;
@@ -70,6 +74,7 @@ export default defineComponent({
     font-weight: $font-weight-regular;
     font-size: 16px;
     color: #b6b6b6;
+    cursor: pointer;
   }
   &__total {
     margin: 50px 0;
@@ -95,6 +100,7 @@ export default defineComponent({
   &__footer {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
 }
 .icon {

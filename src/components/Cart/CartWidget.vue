@@ -16,7 +16,7 @@ import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 import { useCart } from "@/hooks/useCart";
 
 export default defineComponent({
-  name: "CartWidjet",
+  name: "CartWidget",
   components: { BootstrapIcon },
   setup() {
     const { count, cartTotalCount } = useCart();
@@ -37,6 +37,7 @@ export default defineComponent({
   padding: 15px 19px;
   display: flex;
   align-items: center;
+  margin: 0 94px;
   &__count,
   &__summ {
     font-family: $font-raleway;

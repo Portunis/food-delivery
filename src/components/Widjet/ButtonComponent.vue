@@ -1,16 +1,51 @@
 <template>
-  <div class="button">
-    <BootstrapIcon icon="plus-lg" class="icon" />
-    <p>Добавить</p>
-  </div>
+  <button class="button">
+    <BootstrapIcon
+      v-if="buttonData.leftIcon"
+      :icon="buttonData.leftIcon"
+      class="icon"
+    />
+    {{ buttonData.text }}
+    <BootstrapIcon
+      v-if="buttonData.rightIcon"
+      :icon="buttonData.rightIcon"
+      class="icon"
+    />
+  </button>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 export default defineComponent({
   name: "ButtonComponent",
   components: { BootstrapIcon },
+  props: {
+    data: {
+      type: Object,
+      default: () => {
+        return {};
+      },
+    },
+  },
+  setup(props) {
+    const buttonData = computed(() => {
+      return Object.assign(
+        {
+          disabled: false,
+          leftIcon: "",
+          rightIcon: "",
+          text: "Добавить",
+          count: null,
+        },
+        props.data
+      );
+    });
+
+    return {
+      buttonData,
+    };
+  },
 });
 </script>
 
@@ -25,6 +60,7 @@ export default defineComponent({
   color: $main-color;
   font-family: $font-raleway;
   font-weight: $font-weight-bold;
+  background: none;
   &:hover {
     cursor: pointer;
     background: $main-color;
@@ -32,6 +68,6 @@ export default defineComponent({
   }
 }
 .icon {
-  margin-right: 5px;
+  margin: 0 5px;
 }
 </style>
